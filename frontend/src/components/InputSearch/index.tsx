@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.scss';
+import { TextField } from '@mui/material';
 
 interface InputSearchProps {
   value: string;
@@ -9,9 +10,11 @@ interface InputSearchProps {
 const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
   return (
     <div className="input-search">
-      <input
-        type="text"
-        placeholder="Pesquisar..."
+      <TextField
+        className="input-search-textfield"
+        label="Search for any attribute"
+        variant="outlined"
+        fullWidth
         value={value}
         onChange={onChange}
       />

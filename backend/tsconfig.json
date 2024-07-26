@@ -12,6 +12,6 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "include": ["app/**/*", "start/**/*", "server.ts"],
+  "include": ["src/app/**/*", "src/start/**/*", "src/server.ts"],
   "exclude": ["node_modules"]
 }

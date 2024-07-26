@@ -14,13 +14,13 @@ interface CustomRequest extends Request {
 let csvData: CsvRow[] = [];
 const upload = multer({ dest: 'uploads/' });
 
+export const setCSVData = (data: CsvRow[]) => {
+  csvData = data;
+}
+
 // Upload CSV file
 export const uploadFile = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
   upload.single('file')(req, res, (err: string | null) => {
-    if (err) {
-      return res.status(500).json({ message: "Error uploading the file" });
-    }
-
     const file = req.file;
     if (!file) {
       return res.status(400).json({ message: "No file provided" });
@@ -31,7 +31,7 @@ export const uploadFile = async (req: CustomRequest, res: Response, next: NextFu
       .pipe(csv())
       .on('data', (data: CsvRow) => results.push(data))
       .on('end', () => {
-        csvData = results;
+        setCSVData(results);
         fs.unlinkSync(file.path);
         res.status(200).json({ message: "The file was uploaded successfully", data: csvData });
       });

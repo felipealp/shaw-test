@@ -21,7 +21,6 @@ export const handleFileUpload = async (
       setCsvData(response.data.data);
       setError(null);
     } catch (error) {
-      console.error(error);
       setError('Error loading CSV file.');
     }
   }
@@ -38,7 +37,6 @@ export const fetchUsers = async (
     setCsvData(response.data.data);
     setError(null);
   } catch (error) {
-    console.error(error);
     setError('Error when searching for users.');
   }
 };

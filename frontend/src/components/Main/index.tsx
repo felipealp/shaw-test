@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Box, Divider, Typography, Snackbar, Alert } from '@mui/material';
+import { Container, Box, Divider, Snackbar, Alert } from '@mui/material';
 import InputSearch from '../InputSearch';
 import InputUpload from '../InputUpload';
 import CardList from '../CardList';
@@ -13,7 +13,15 @@ const MainComponent: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    fetchUsers(term, setCsvData, setError);
+  };
+
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleCloseSnackbar()
+  
     try {
       await handleFileUpload(event, setCsvData, setError);
       setSuccess('File uploaded successfully!');
@@ -26,13 +34,6 @@ const MainComponent: React.FC = () => {
     }
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    fetchUsers(term, setCsvData, setError);
-    console.log(csvData);
-  };
-
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -42,7 +43,7 @@ const MainComponent: React.FC = () => {
   }, []);
 
   return (
-    <div className='main'>
+    <div className='main' data-testid="main">
       <Container>
         <Box my={4}>
           <div className='main-header'>
@@ -54,18 +55,13 @@ const MainComponent: React.FC = () => {
           </div>
           
           <Divider sx={{ my: 2 }} />
-          
-          {error && (
-            <Typography color="error" variant="body1" gutterBottom>
-              {error}
-            </Typography>
-          )}
 
           <CardList data={csvData} />
 
           <Snackbar
             open={openSnackbar}
             autoHideDuration={2000}
+             data-testid="snackbar"
             onClose={handleCloseSnackbar}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             sx={{ width: '50%' }}

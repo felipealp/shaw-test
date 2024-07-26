@@ -1,9 +1,6 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const urlServer = process.env.URL_SERVER || 'http://localhost:3000';
+const urlServer = process.env.REACT_APP_API_URL;
 
 export const handleFileUpload = async (
   event: React.ChangeEvent<HTMLInputElement>,

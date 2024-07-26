@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.scss';
+import { handleFileUpload, fetchUsers } from '../../services/CsvService';
+import InputSearch from '../InputSearch';
+import InputUpload from '../InputUpload';
+import CardList from '../CardList';
 
 const Main: React.FC = () => {
+  const [csvData, setCsvData] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    await handleFileUpload(event, setCsvData, setError);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    fetchUsers(term, setCsvData, setError);
+    console.log(csvData)
+  };
+
   return (
-    <div className="Main">
-      <header className="Main-header">
-        <p>
-          Edit and save to reload.
-        </p>
-        <a
-          className="Main-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Redirecionar
-        </a>
+    <div className="main">
+      <header className="main-header">
+        <InputSearch value={searchTerm} onChange={handleSearchChange} />
+        <InputUpload onChange={handleFileChange} />
+        {error && <p className="error">{error}</p>}
+        <CardList data={csvData} />
       </header>
     </div>
   );

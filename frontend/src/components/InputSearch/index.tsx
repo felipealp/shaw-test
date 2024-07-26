@@ -12,6 +12,7 @@ const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
     <div className="input-search">
       <TextField
         className="input-search-textfield"
+        data-testid="input-search"
         label="Search for any attribute"
         variant="outlined"
         fullWidth

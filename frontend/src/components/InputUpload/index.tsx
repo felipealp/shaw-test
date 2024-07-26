@@ -13,6 +13,7 @@ const InputUpload: React.FC<InputUploadProps> = ({ onChange }) => {
         accept=".csv"
         style={{ display: 'none' }}
         id="input-upload-file"
+        data-testid="input-upload-file"
         type="file"
         onChange={onChange}
       />

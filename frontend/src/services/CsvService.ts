@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const urlServer = 'http://localhost:3000'
+
 export const handleFileUpload = async (
   event: React.ChangeEvent<HTMLInputElement>,
   setCsvData: React.Dispatch<React.SetStateAction<any[]>>,
@@ -11,7 +13,7 @@ export const handleFileUpload = async (
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/files', formData, {
+      const response = await axios.post(`${urlServer}/api/files`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -32,7 +34,7 @@ export const fetchUsers = async (
 ) => {
   try {
     const params = searchTerm ? { q: searchTerm } : {};
-    const response = await axios.get('http://localhost:3000/api/users', { params });
+    const response = await axios.get(`${urlServer}/api/users`, { params });
     setCsvData(response.data.data);
     setError(null);
   } catch (error) {

@@ -32,21 +32,25 @@ const CardList: React.FC<CardListProps> = ({ data }) => {
 
   const paginatedData = data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
+  if (!data || data.length === 0) {
+    return <Typography variant="h6" color="textSecondary">No items. Please upload the CSV.</Typography>;
+  }
+
   return (
     <div>
       <Grid container spacing={2} className="cards-container">
         {paginatedData.map((row, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ maxWidth: 345 }} className="card">
+            <Card sx={{ maxWidth: 345 }} className="card" data-testid="card">
               <CardActionArea>
                 <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{ padding: 2 }}>
                   <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 56, height: 56 }}>
-                    {getAbbreviation(row.name)}
+                    {getAbbreviation(row.name || Object.values(row)[0])}
                   </Avatar>
                 </Stack>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {toTitleCase(row.name)}
+                    {toTitleCase(row.name || Object.values(row)[0])}
                   </Typography>
                   {Object.entries(row).map(([key, value]) => (
                     <Typography key={key} variant="body2" color="text.secondary">
